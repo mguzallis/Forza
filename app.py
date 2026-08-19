@@ -63,7 +63,14 @@ h1 {{ text-transform: uppercase; }}
 </style>
 """, unsafe_allow_html=True)
 
-st.image(os.path.join(ASSETS_DIR, "forza_logo_corporate.png"), width=420)
+with open(os.path.join(ASSETS_DIR, "forza_logo_corporate.png"), "rb") as _fh:
+    _LOGO_B64 = base64.b64encode(_fh.read()).decode("ascii")
+
+st.markdown(
+    f"""<div style="text-align:center;">
+    <img src="data:image/png;base64,{_LOGO_B64}" width="420">
+    </div>""",
+    unsafe_allow_html=True)
 
 st.markdown(
     """<div style="font-family:'Kallisto Heavy','Poppins',sans-serif;
@@ -90,7 +97,7 @@ st.divider()
 st.markdown(
     """<div style="font-family:'Kallisto Heavy','Poppins',sans-serif;
     letter-spacing:0.04em; font-size:0.78rem; text-transform:uppercase;
-    margin:-10px 0 16px 0;">
+    margin:-10px 0 16px 0; text-align:center;">
     <span style="color:#1B3764;">Purpose-Built </span>
     <span style="color:#BFBFBF;">Performance </span>
     <span style="color:#F16022;">Guaranteed Strength</span>
