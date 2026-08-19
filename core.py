@@ -427,12 +427,25 @@ def _detect(sds: SDS) -> dict:
     for sec in sds.sections:
         if sec.number != 1:
             continue
-        for blk in sec.blocks:
+        i = 0
+        while i < len(sec.blocks):
+            blk = sec.blocks[i]
             if isinstance(blk, Para):
                 t = blk.text.strip()
                 m = re.match(r"([A-Za-z][A-Za-z /]+?)\s*:\s*(.+)$", t)
                 if m:
                     check_label(m.group(1).strip(), m.group(2).strip())
+                else:
+                    # Label alone on its own line/paragraph ("Recommended
+                    # Restrictions:" with nothing after the colon) - the
+                    # actual value is often on the following paragraph.
+                    label_only = re.match(r"^([A-Za-z][A-Za-z /]+?)\s*:?\s*$", t)
+                    if label_only and i + 1 < len(sec.blocks):
+                        nxt = sec.blocks[i + 1]
+                        if isinstance(nxt, Para):
+                            nxt_text = nxt.text.strip()
+                            if nxt_text and not re.match(r"^[A-Za-z][A-Za-z /]+?\s*:", nxt_text):
+                                check_label(label_only.group(1).strip(), nxt_text)
             elif isinstance(blk, Table):
                 for row in blk.rows:
                     if len(row) >= 2:
@@ -440,6 +453,7 @@ def _detect(sds: SDS) -> dict:
                         value = " ".join(p.text for p in row[1].paras).strip()
                         if label and value:
                             check_label(label, value)
+            i += 1
 
     for blk in sds.preamble:
         if isinstance(blk, Table):
