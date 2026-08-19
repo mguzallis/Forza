@@ -687,10 +687,10 @@ def normalize_date_string(s: str) -> str:
 
 
 def build_dcn(sds_number: str, version: str, trade_name: str) -> str:
-    """S-0196 + 1 + R-OS86  ->  'S0196_V1 - R-OS86'  (en dash, per reference)."""
+    """S-0196 + 1 + R-OS86  ->  'S0196_V1-R-OS86'  (en dash, no surrounding spaces)."""
     core = re.sub(r"[^0-9A-Za-z]", "", str(sds_number))
     ver = re.sub(r"\D", "", str(version)) or "1"
-    return f"{core}_V{ver} \u2013 {trade_name}".strip()
+    return f"{core}_V{ver}\u2013{trade_name}".strip()
 
 
 def build_sds_field(sds_number: str, version: str) -> str:
