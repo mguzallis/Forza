@@ -372,8 +372,13 @@ def inject_pictogram_images(sds: SDS) -> SDS:
                 if not has_image and trailing:
                     codes = _picto_codes(trailing)
                     if codes:
-                        blk.runs = ([Run("Hazard Pictograms: ", bold=True)] +
-                                   [_picto_run(c, sds) for c in codes])
+                        # Label and images go on separate lines - a shared
+                        # paragraph would let the images wrap inline after
+                        # the label instead of dropping to their own row.
+                        blk.runs = [Run("Hazard Pictograms:", bold=True)]
+                        image_para = Para([_picto_run(c, sds) for c in codes])
+                        sec2.blocks.insert(i + 1, image_para)
+                        i += 1
                 elif not trailing and i + 1 < len(sec2.blocks):
                     nxt = sec2.blocks[i + 1]
                     if isinstance(nxt, Para) and not any(r.image for r in nxt.runs):
