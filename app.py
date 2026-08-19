@@ -67,20 +67,18 @@ with open(os.path.join(ASSETS_DIR, "forza_logo_corporate.png"), "rb") as _fh:
     _LOGO_B64 = base64.b64encode(_fh.read()).decode("ascii")
 
 st.markdown(
-    f"""<div style="text-align:center;">
-    <img src="data:image/png;base64,{_LOGO_B64}" width="420">
+    f"""<div style="text-align:center; margin-bottom:22px;">
+    <img src="data:image/png;base64,{_LOGO_B64}" width="420"><br>
+    <span style="font-family:'Kallisto Heavy','Poppins',sans-serif;
+    letter-spacing:0.1em; color:#1B3764; font-size:0.85rem;
+    text-transform:uppercase; display:inline-block; margin-top:14px;">
+    SDS Formatter &amp; Rebrand Tool</span><br>
+    <span style="font-family:'Poppins',sans-serif; color:#666666;
+    font-size:0.95rem; display:inline-block; margin-top:6px;">
+    Drop in an R&amp;D or Marketing SDS. Get back a branded, correctly
+    formatted document.</span>
     </div>""",
     unsafe_allow_html=True)
-
-st.markdown(
-    """<div style="font-family:'Kallisto Heavy','Poppins',sans-serif;
-    letter-spacing:0.1em; color:#1B3764;
-    font-size:0.85rem; text-transform:uppercase; margin:14px 0 18px 0;">
-    SDS Formatter &amp; Rebrand Tool</div>""",
-    unsafe_allow_html=True)
-
-st.caption("Drop in an R&D or Marketing SDS. Get back a branded, "
-           "correctly formatted document.")
 
 mode = st.radio(
     "Mode",
