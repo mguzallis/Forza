@@ -938,8 +938,8 @@ def apply_intake(sds: SDS, intake: dict) -> SDS:
     return sds
 
 
-TOP_ROWS = ["trade_name", "sds_field", "replaces", "date_of_issue", "effective_date"]
-TOP_LABELS = ["Trade Name", "SDS #", "Replaces", "Date of Issue", "Effective Date"]
+TOP_ROWS = ["trade_name", "sds_field", "date_of_issue", "replaces", "effective_date"]
+TOP_LABELS = ["Trade Name", "SDS #", "Date of Issue", "Replaces", "Effective Date"]
 
 
 def render(sds: SDS, intake: dict, shell_path: str, out_path: str) -> str:
