@@ -12,22 +12,21 @@ Corrections applied vs. the reference:
 """
 import os, re, shutil, zipfile
 
-REF = "/mnt/user-data/uploads/ForzaEAGLE_R-0S86_Insulation_SDS_V1_08_05_2026__1_.docx"
+REF = "/home/claude/work/build_area/shells/SDS_Shell_Insulation.docx"
 UP = "/mnt/user-data/uploads"
-OUT = "/home/claude/work/shells"
+NEWB = "/home/claude/work/build_area/new_banners"
+OUT = "/home/claude/work/build_area/shells_out"
 
 BANNERS = {
-    # Pass-through: original file bytes are embedded unchanged, so the color is
-    # byte-for-byte identical to what was uploaded. No RGB re-encode, ever.
-    "Composites":     f"{UP}/1787089497628_Composites_SDS.docx|word/media/image1.jpg",
-    "Construction":   f"{UP}/1787089497629_Construction_SDS.docx|word/media/image1.jpg",
-    "Insulation":     f"{UP}/1787089497629_Insulation_SDS.docx|word/media/image1.jpg",
-    "Marine":         f"{UP}/1787089497629_Marine_SDS.docx|word/media/image1.jpg",
-    "Transportation": f"{UP}/1787089497630_Transportation_SDS.docx|word/media/image1.jpg",
-    # True Letter-sized artwork, CMYK, byte-for-byte passthrough like the other
-    # five. No reflow needed - this is a genuine drop-in replacement for the
-    # earlier A4-derived Industrial banner.
-    "Industrial":     "/mnt/user-data/uploads/Industrial_reredo.docx|word/media/image1.jpg",
+    # Corrected artwork (fixed footer: "ForzaBuilt.com" spelling and the
+    # address order, both were baked wrong into the previous banner images).
+    # Plain RGB source files, passed through unchanged - no color conversion.
+    "Composites":     f"{NEWB}/Composites.jpg|@file",
+    "Construction":   f"{NEWB}/Construction.jpg|@file",
+    "Insulation":     f"{NEWB}/Insulation.jpg|@file",
+    "Marine":         f"{NEWB}/Marine.jpg|@file",
+    "Transportation": f"{NEWB}/Transportation.jpg|@file",
+    "Industrial":     f"{NEWB}/Industrial.jpg|@file",
 }
 
 # ---- page geometry (twips; 1440 = 1 inch) -------------------------------
@@ -93,11 +92,11 @@ FOOTER = DECL + (
     f'<w:ftr {NS}>'
     f'<w:p><w:pPr><w:pStyle w:val="Footer"/>{_FRAME}'
     f'<w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="right"/></w:pPr>'
-    + _run("Page ") + _field("PAGE") + _run(" of ") + _field("NUMPAGES") +
+    + _run("{{LBL_PAGE}} ") + _field("PAGE") + _run(" {{LBL_OF}} ") + _field("NUMPAGES") +
     f'</w:p>'
     f'<w:p><w:pPr><w:pStyle w:val="Footer"/>{_FRAME2}'
     f'<w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="right"/></w:pPr>'
-    + _run("DCN: {{DCN}}") +
+    + _run("{{LBL_DCN}} {{DCN}}") +
     f'</w:p>'
     f'<w:p><w:pPr><w:pStyle w:val="Footer"/></w:pPr></w:p>'
     f'</w:ftr>')
@@ -110,11 +109,11 @@ TNR = ('<w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" '
        'w:hAnsi="Times New Roman" w:cs="Times New Roman"/>')
 
 TOP_ROWS = [
-    ("Trade Name",   "{{TRADE_NAME}}"),
-    ("SDS #",        "{{SDS_NUMBER}} V{{VERSION}}"),
-    ("Replaces",     "{{REPLACES}}"),
-    ("Date of Issue", "{{DATE_OF_ISSUE}}"),
-    ("Effective Date", "{{EFFECTIVE_DATE}}"),
+    ("{{LBL_TRADE_NAME}}",   "{{TRADE_NAME}}"),
+    ("{{LBL_SDS_NUM}}",        "{{SDS_NUMBER}} V{{VERSION}}"),
+    ("{{LBL_DATE_ISSUE}}", "{{DATE_OF_ISSUE}}"),
+    ("{{LBL_REPLACES}}",     "{{REPLACES}}"),
+    ("{{LBL_EFFECTIVE}}", "{{EFFECTIVE_DATE}}"),
 ]
 
 
@@ -157,7 +156,7 @@ def top_table():
 TITLE = ('<w:p><w:pPr><w:spacing w:line="240" w:lineRule="auto"/>'
          f'<w:rPr>{TNR}<w:b/><w:sz w:val="44"/><w:szCs w:val="44"/></w:rPr></w:pPr>'
          f'<w:r><w:rPr>{TNR}<w:b/><w:bCs/><w:kern w:val="36"/><w:sz w:val="44"/>'
-         '<w:szCs w:val="44"/></w:rPr><w:t>SAFETY DATA SHEET</w:t></w:r></w:p>')
+         '<w:szCs w:val="44"/></w:rPr><w:t>{{LBL_DOC_TITLE}}</w:t></w:r></w:p>')
 
 MARKER = ('<w:p><w:pPr><w:spacing w:line="240" w:lineRule="auto"/>'
           f'<w:rPr>{TNR}</w:rPr></w:pPr>'

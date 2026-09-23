@@ -223,13 +223,22 @@ if mode == "Single file":
 
     if st.button("Generate SDS", type="primary", disabled=bool(problems)):
         safe = re.sub(r"[^0-9A-Za-z_.-]", "_", intake["trade_name"])
-        fname = f"Forza_{vertical}_{safe}_SDS_V{intake['version']}.docx"
-        out = os.path.join(tempfile.mkdtemp(), fname)
-        render(sds, intake, shell, out)
-        with open(out, "rb") as fh:
-            st.download_button("Download", fh.read(), file_name=fname, mime=DOCX_MIME)
-        st.success("Done. Open in Word and press Ctrl+A then F9 to refresh page totals.")
-        st.caption("Hard page breaks are intentionally not carried over.")
+        base = f"Forza_{vertical}_{safe}_SDS_V{intake['version']}"
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zip_out:
+            for lang, suffix in (("en", "EN"), ("fr", "FR"), ("es", "ES")):
+                fname = f"{base}_{suffix}.docx"
+                out = os.path.join(tempfile.mkdtemp(), fname)
+                render(sds, intake, shell, out, lang=lang)
+                zip_out.write(out, fname)
+        st.download_button("Download all (.zip)", buf.getvalue(),
+                           file_name=f"{base}.zip", mime="application/zip")
+        st.success("Done - English, French, and Spanish versions generated. "
+                  "Open each in Word and press Ctrl+A then F9 to refresh page totals.")
+        st.caption("Hard page breaks are intentionally not carried over. French/Spanish: "
+                  "fixed labels and matched GHS hazard/precautionary codes are translated; "
+                  "free-text hazard content from the source is not, and any hazard/"
+                  "precautionary code without a verified translation is flagged inline.")
 
 # =============================================== REBRAND ACROSS VERTICALS ===
 elif mode == "Rebrand across verticals":
@@ -286,14 +295,18 @@ elif mode == "Rebrand across verticals":
                 sds_copy = copy.deepcopy(base_sds)
                 apply_intake(sds_copy, intake)
                 safe = re.sub(r"[^0-9A-Za-z_.-]", "_", intake["trade_name"])
-                fname = f"Forza_{v}_{safe}_SDS_V{intake['version']}.docx"
-                out_path = os.path.join(tempfile.mkdtemp(), fname)
-                render(sds_copy, intake, os.path.join(SHELL_DIR, f"SDS_Shell_{v}.docx"), out_path)
-                zip_out.write(out_path, arcname=fname)
-                names.append(fname)
+                base_name = f"Forza_{v}_{safe}_SDS_V{intake['version']}"
+                for lang, suffix in (("en", "EN"), ("fr", "FR"), ("es", "ES")):
+                    fname = f"{base_name}_{suffix}.docx"
+                    out_path = os.path.join(tempfile.mkdtemp(), fname)
+                    render(sds_copy, intake, os.path.join(SHELL_DIR, f"SDS_Shell_{v}.docx"),
+                          out_path, lang=lang)
+                    zip_out.write(out_path, arcname=fname)
+                    names.append(fname)
         st.download_button("Download all (.zip)", buf.getvalue(),
                            file_name="Forza_SDS_multivertical.zip", mime="application/zip")
-        st.success(f"Generated {len(names)} document(s): " + ", ".join(names))
+        st.success(f"Generated {len(names)} document(s) - English, French, and "
+                  "Spanish for each vertical: " + ", ".join(names))
 
 # ============================================================ BULK REFORMAT ===
 elif mode == "Bulk reformat":
@@ -341,11 +354,14 @@ elif mode == "Bulk reformat":
                 s = parsed[fname_in]
                 apply_intake(s, intake)
                 safe = re.sub(r"[^0-9A-Za-z_.-]", "_", intake["trade_name"] or fname_in)
-                out_name = f"Forza_{vertical}_{safe}_SDS_V{intake['version']}.docx"
-                out_path = os.path.join(tempfile.mkdtemp(), out_name)
-                render(s, intake, shell, out_path)
-                zip_out.write(out_path, arcname=out_name)
-                names.append(out_name)
+                out_base = f"Forza_{vertical}_{safe}_SDS_V{intake['version']}"
+                for lang, suffix in (("en", "EN"), ("fr", "FR"), ("es", "ES")):
+                    out_name = f"{out_base}_{suffix}.docx"
+                    out_path = os.path.join(tempfile.mkdtemp(), out_name)
+                    render(s, intake, shell, out_path, lang=lang)
+                    zip_out.write(out_path, arcname=out_name)
+                    names.append(out_name)
         st.download_button("Download all (.zip)", buf.getvalue(),
                            file_name=f"Forza_{vertical}_batch.zip", mime="application/zip")
-        st.success(f"Generated {len(names)} document(s): " + ", ".join(names))
+        st.success(f"Generated {len(names)} document(s) - English, French, and "
+                  "Spanish for each file: " + ", ".join(names))

@@ -52,6 +52,376 @@ SECTION_TITLES = {
     16: "Other Information",
 }
 
+# Standard GHS/WHMIS 16-section titles. These are internationally
+# standardized (the 16-section SDS format itself is harmonized under GHS),
+# not a Forza-specific translation choice.
+SECTION_TITLES_FR = {
+    1: "Identification",
+    2: "Identification des dangers",
+    3: "Composition/informations sur les composants",
+    4: "Premiers secours",
+    5: "Mesures de lutte contre l'incendie",
+    6: "Mesures \u00e0 prendre en cas de dispersion accidentelle",
+    7: "Manutention et stockage",
+    8: "Contr\u00f4le de l'exposition/protection individuelle",
+    9: "Propri\u00e9t\u00e9s physiques et chimiques",
+    10: "Stabilit\u00e9 et r\u00e9activit\u00e9",
+    11: "Donn\u00e9es toxicologiques",
+    12: "Donn\u00e9es \u00e9cologiques",
+    13: "Consid\u00e9rations relatives \u00e0 l'\u00e9limination",
+    14: "Informations relatives au transport",
+    15: "Informations r\u00e9glementaires",
+    16: "Autres informations",
+}
+
+SECTION_TITLES_ES = {
+    1: "Identificaci\u00f3n",
+    2: "Identificaci\u00f3n de peligros",
+    3: "Composici\u00f3n/informaci\u00f3n sobre los componentes",
+    4: "Primeros auxilios",
+    5: "Medidas de lucha contra incendios",
+    6: "Medidas en caso de vertido accidental",
+    7: "Manipulaci\u00f3n y almacenamiento",
+    8: "Controles de exposici\u00f3n/protecci\u00f3n individual",
+    9: "Propiedades f\u00edsicas y qu\u00edmicas",
+    10: "Estabilidad y reactividad",
+    11: "Informaci\u00f3n toxicol\u00f3gica",
+    12: "Informaci\u00f3n ecol\u00f3gica",
+    13: "Consideraciones relativas a la eliminaci\u00f3n",
+    14: "Informaci\u00f3n relativa al transporte",
+    15: "Informaci\u00f3n reglamentaria",
+    16: "Otra informaci\u00f3n",
+}
+
+SECTION_TITLES_BY_LANG = {"en": SECTION_TITLES, "fr": SECTION_TITLES_FR, "es": SECTION_TITLES_ES}
+
+# Fixed template labels (doc title, top table, Section 1 field names, footer).
+# fr = Canadian French. Canada's Hazardous Products Regulations (SOR/2015-17)
+# incorporates the UN GHS Annex 3 standard phrasing by reference for hazard/
+# precautionary statements, rather than defining separate Canada-only
+# wording - so "Canadian French" and "standard GHS French" are the same text
+# for that content (see HAZARD_PHRASES_FR / PRECAUTION_PHRASES_FR below).
+LANG = {
+    "en": {
+        "doc_title": "SAFETY DATA SHEET",
+        "trade_name": "Trade Name",
+        "sds_num": "SDS #",
+        "date_issue": "Date of Issue",
+        "replaces": "Replaces",
+        "effective": "Effective Date",
+        "page": "Page",
+        "of": "of",
+        "dcn": "DCN:",
+        "product_name": "Product Name:",
+        "other_means": "Other Means of Identification:",
+        "product_code": "Product Code Number:",
+        "recommended_use": "Recommended Use:",
+        "recommended_restrictions": "Recommended Restrictions:",
+        "suppliers_details": "Suppliers Details",
+        "company": "Company:",
+        "company_phone": "Company Phone Number:",
+        "emergency_phone": "Emergency Phone Number:",
+        "hazard_pictograms": "Hazard Pictograms:",
+        "unverified": "",
+    },
+    "fr": {
+        "doc_title": "FICHE DE DONN\u00c9ES DE S\u00c9CURIT\u00c9",
+        "trade_name": "Nom commercial",
+        "sds_num": "N\u00b0 de FDS",
+        "date_issue": "Date d'\u00e9mission",
+        "replaces": "Remplace",
+        "effective": "Date d'entr\u00e9e en vigueur",
+        "page": "Page",
+        "of": "de",
+        "dcn": "NCD :",
+        "product_name": "Nom du produit :",
+        "other_means": "Autres moyens d'identification :",
+        "product_code": "Num\u00e9ro de code du produit :",
+        "recommended_use": "Usage recommand\u00e9 :",
+        "recommended_restrictions": "Restrictions d'usage recommand\u00e9es :",
+        "suppliers_details": "Coordonn\u00e9es du fournisseur",
+        "company": "Entreprise :",
+        "company_phone": "T\u00e9l\u00e9phone de l'entreprise :",
+        "emergency_phone": "T\u00e9l\u00e9phone d'urgence :",
+        "hazard_pictograms": "Pictogrammes de danger :",
+        "unverified": " [FR: \u00e0 v\u00e9rifier]",
+    },
+    "es": {
+        "doc_title": "HOJA DE DATOS DE SEGURIDAD",
+        "trade_name": "Nombre comercial",
+        "sds_num": "N.\u00ba de HDS",
+        "date_issue": "Fecha de emisi\u00f3n",
+        "replaces": "Reemplaza a",
+        "effective": "Fecha de vigencia",
+        "page": "P\u00e1gina",
+        "of": "de",
+        "dcn": "NCD:",
+        "product_name": "Nombre del producto:",
+        "other_means": "Otros medios de identificaci\u00f3n:",
+        "product_code": "N\u00famero de c\u00f3digo del producto:",
+        "recommended_use": "Uso recomendado:",
+        "recommended_restrictions": "Restricciones de uso recomendadas:",
+        "suppliers_details": "Datos del proveedor",
+        "company": "Empresa:",
+        "company_phone": "Tel\u00e9fono de la empresa:",
+        "emergency_phone": "Tel\u00e9fono de emergencia:",
+        "hazard_pictograms": "Pictogramas de peligro:",
+        "unverified": " [ES: por verificar]",
+    },
+}
+
+# Curated H-code / P-code -> official GHS phrase lookup. This is NOT a
+# complete transcription of every possible GHS code/combination - it covers
+# the codes that actually appear across Forza's real product SDSs. A code
+# not in this table is left in English with the "unverified" marker above
+# rather than guessed, so nothing looks officially translated when it
+# hasn't been checked. Expand by adding entries; never invent a phrase here.
+HAZARD_PHRASES_FR = {
+    "H225": "Liquide et vapeurs tr\u00e8s inflammables.",
+    "H226": "Liquide et vapeurs inflammables.",
+    "H227": "Liquide combustible.",
+    "H228": "Solide inflammable.",
+    "H280": "Contient un gaz sous pression; peut exploser sous l'effet de la chaleur.",
+    "H281": "Contient un gaz r\u00e9frig\u00e9r\u00e9; peut causer des br\u00fblures ou blessures cryog\u00e9niques.",
+    "H282": "Produit chimique sous pression : peut exploser sous l'effet de la chaleur.",
+    "H283": "Produit chimique sous pression : peut exploser sous l'effet de la chaleur.",
+    "H284": "Produit chimique sous pression : peut exploser sous l'effet de la chaleur.",
+    "H290": "Peut \u00eatre corrosif pour les m\u00e9taux.",
+    "H302": "Nocif en cas d'ingestion.",
+    "H303": "Peut \u00eatre nocif en cas d'ingestion.",
+    "H304": "Peut \u00eatre mortel en cas d'ingestion et de p\u00e9n\u00e9tration dans les voies respiratoires.",
+    "H305": "Peut \u00eatre nocif en cas d'ingestion et de p\u00e9n\u00e9tration dans les voies respiratoires.",
+    "H312": "Nocif par contact cutan\u00e9.",
+    "H314": "Provoque des br\u00fblures de la peau et des l\u00e9sions oculaires graves.",
+    "H315": "Provoque une irritation cutan\u00e9e.",
+    "H316": "Provoque une l\u00e9g\u00e8re irritation cutan\u00e9e.",
+    "H317": "Peut provoquer une allergie cutan\u00e9e.",
+    "H318": "Provoque des l\u00e9sions oculaires graves.",
+    "H319": "Provoque une s\u00e9v\u00e8re irritation des yeux.",
+    "H320": "Provoque une irritation oculaire.",
+    "H332": "Nocif par inhalation.",
+    "H334": "Peut provoquer des sympt\u00f4mes allergiques ou d'asthme ou des difficult\u00e9s respiratoires par inhalation.",
+    "H335": "Peut irriter les voies respiratoires.",
+    "H336": "Peut provoquer somnolence ou vertiges.",
+    "H351": "Susceptible de provoquer le cancer.",
+    "H360": "Peut nuire \u00e0 la fertilit\u00e9 ou au f\u0153tus.",
+    "H361": "Susceptible de nuire \u00e0 la fertilit\u00e9 ou au f\u0153tus.",
+    "H362": "Peut \u00eatre nocif pour les b\u00e9b\u00e9s nourris au lait maternel.",
+    "H371": "Risque pr\u00e9sum\u00e9 d'effets graves pour les organes.",
+    "H373": "Risque pr\u00e9sum\u00e9 d'effets graves pour les organes \u00e0 la suite d'expositions r\u00e9p\u00e9t\u00e9es ou d'une exposition prolong\u00e9e.",
+    "H400": "Tr\u00e8s toxique pour les organismes aquatiques.",
+    "H410": "Tr\u00e8s toxique pour les organismes aquatiques, entra\u00eene des effets n\u00e9fastes \u00e0 long terme.",
+    "H411": "Toxique pour les organismes aquatiques, entra\u00eene des effets n\u00e9fastes \u00e0 long terme.",
+    "H412": "Nocif pour les organismes aquatiques, entra\u00eene des effets n\u00e9fastes \u00e0 long terme.",
+    "H413": "Peut \u00eatre nocif \u00e0 long terme pour les organismes aquatiques.",
+    "H301+H311+H331": "Toxique en cas d'ingestion, par contact cutan\u00e9 ou par inhalation.",
+    "H302+H312": "Nocif en cas d'ingestion ou par contact cutan\u00e9.",
+    "H302+H332": "Nocif en cas d'ingestion ou par inhalation.",
+    "H312+H332": "Nocif par contact cutan\u00e9 ou par inhalation.",
+    "H302+H312+H332": "Nocif en cas d'ingestion, par contact cutan\u00e9 ou par inhalation.",
+    "H315+H319": "Provoque une irritation cutan\u00e9e et une s\u00e9v\u00e8re irritation des yeux.",
+    "H315+H320": "Provoque une irritation cutan\u00e9e et oculaire.",
+}
+
+PRECAUTION_PHRASES_FR = {
+    "P201": "Se procurer les instructions avant utilisation.",
+    "P202": "Ne pas manipuler avant d'avoir lu et compris toutes les pr\u00e9cautions de s\u00e9curit\u00e9.",
+    "P210": "Tenir \u00e0 l'\u00e9cart de la chaleur, des surfaces chaudes, des \u00e9tincelles, des flammes nues et de toute autre source d'inflammation. Ne pas fumer.",
+    "P211": "Ne pas vaporiser sur une flamme nue ou sur toute autre source d'inflammation.",
+    "P233": "Maintenir le r\u00e9cipient ferm\u00e9 de mani\u00e8re \u00e9tanche.",
+    "P240": "Mise \u00e0 la terre/liaison \u00e9quipotentielle du r\u00e9cipient et du mat\u00e9riel de r\u00e9ception.",
+    "P241": "Utiliser du mat\u00e9riel \u00e9lectrique/de ventilation/d'\u00e9clairage antid\u00e9flagrant.",
+    "P242": "Ne pas utiliser d'outils produisant des \u00e9tincelles.",
+    "P243": "Prendre des mesures de pr\u00e9caution contre les d\u00e9charges \u00e9lectrostatiques.",
+    "P251": "Ne pas perforer, ni br\u00fbler, m\u00eame apr\u00e8s usage.",
+    "P260": "Ne pas respirer les poussi\u00e8res/fum\u00e9es/gaz/brouillards/vapeurs/a\u00e9rosols.",
+    "P261": "\u00c9viter de respirer les poussi\u00e8res/fum\u00e9es/gaz/brouillards/vapeurs/a\u00e9rosols.",
+    "P264": "Se laver soigneusement apr\u00e8s manipulation.",
+    "P271": "Utiliser seulement en plein air ou dans un endroit bien ventil\u00e9.",
+    "P272": "Les v\u00eatements de travail contamin\u00e9s ne devraient pas sortir du lieu de travail.",
+    "P273": "\u00c9viter le rejet dans l'environnement.",
+    "P280": "Porter des gants de protection/des v\u00eatements de protection/un \u00e9quipement de protection des yeux/du visage.",
+    "P301+P310": "EN CAS D'INGESTION : Appeler imm\u00e9diatement un CENTRE ANTIPOISON ou un m\u00e9decin.",
+    "P301+P312": "EN CAS D'INGESTION : Appeler un CENTRE ANTIPOISON ou un m\u00e9decin en cas de malaise.",
+    "P302+P352": "EN CAS DE CONTACT AVEC LA PEAU : Laver abondamment \u00e0 l'eau et au savon.",
+    "P303+P361+P353": "EN CAS DE CONTACT AVEC LA PEAU (ou les cheveux) : enlever imm\u00e9diatement tous les v\u00eatements contamin\u00e9s. Rincer la peau \u00e0 l'eau/se doucher.",
+    "P304+P340": "EN CAS D'INHALATION : transporter la personne \u00e0 l'ext\u00e9rieur et la maintenir au repos dans une position o\u00f9 elle peut confortablement respirer.",
+    "P304+P312": "EN CAS D'INHALATION : Appeler un CENTRE ANTIPOISON ou un m\u00e9decin en cas de malaise.",
+    "P305+P351+P338": "EN CAS DE CONTACT AVEC LES YEUX : rincer avec pr\u00e9caution \u00e0 l'eau pendant plusieurs minutes. Enlever les lentilles de contact si la victime en porte et si elles peuvent \u00eatre facilement enlev\u00e9es. Continuer \u00e0 rincer.",
+    "P306+P360": "EN CAS DE CONTACT AVEC LES V\u00caTEMENTS : rincer imm\u00e9diatement les v\u00eatements et la peau contamin\u00e9s abondamment \u00e0 l'eau avant de les enlever.",
+    "P310": "Appeler imm\u00e9diatement un CENTRE ANTIPOISON ou un m\u00e9decin.",
+    "P311": "Appeler un CENTRE ANTIPOISON ou un m\u00e9decin.",
+    "P312": "Appeler un CENTRE ANTIPOISON ou un m\u00e9decin en cas de malaise.",
+    "P313": "Consulter un m\u00e9decin.",
+    "P330": "Rincer la bouche.",
+    "P331": "NE PAS faire vomir.",
+    "P332+P313": "En cas d'irritation cutan\u00e9e : consulter un m\u00e9decin.",
+    "P333+P313": "En cas d'irritation ou d'\u00e9ruption cutan\u00e9e : consulter un m\u00e9decin.",
+    "P337+P313": "Si l'irritation oculaire persiste : consulter un m\u00e9decin.",
+    "P340": "Transporter la personne \u00e0 l'ext\u00e9rieur et la maintenir au repos dans une position o\u00f9 elle peut confortablement respirer.",
+    "P362+P364": "Enlever les v\u00eatements contamin\u00e9s et les laver avant r\u00e9utilisation.",
+    "P370+P378": "En cas d'incendie : utiliser un moyen d'extinction appropri\u00e9.",
+    "P371+P380+P375": "En cas d'incendie important et de grandes quantit\u00e9s : \u00e9vacuer la zone. En raison d'un risque d'explosion, combattre l'incendie \u00e0 distance.",
+    "P403+P233": "Stocker dans un endroit bien ventil\u00e9. Maintenir le r\u00e9cipient ferm\u00e9 de mani\u00e8re \u00e9tanche.",
+    "P403+P235": "Stocker dans un endroit bien ventil\u00e9. Tenir au frais.",
+    "P405": "Garder sous clef.",
+    "P501": "\u00c9liminer le contenu/r\u00e9cipient conform\u00e9ment \u00e0 la r\u00e9glementation locale.",
+}
+
+HAZARD_PHRASES_ES = {
+    "H225": "L\u00edquido y vapores muy inflamables.",
+    "H226": "L\u00edquidos y vapores inflamables.",
+    "H227": "L\u00edquido combustible.",
+    "H280": "Contiene gas a presi\u00f3n; peligro de explosi\u00f3n si se calienta.",
+    "H281": "Contiene gas refrigerado; puede provocar quemaduras o lesiones criog\u00e9nicas.",
+    "H282": "Producto qu\u00edmico a presi\u00f3n: peligro de explosi\u00f3n si se calienta.",
+    "H283": "Producto qu\u00edmico a presi\u00f3n: peligro de explosi\u00f3n si se calienta.",
+    "H284": "Producto qu\u00edmico a presi\u00f3n: peligro de explosi\u00f3n si se calienta.",
+    "H290": "Puede ser corrosivo para los metales.",
+    "H302": "Nocivo en caso de ingesti\u00f3n.",
+    "H303": "Puede ser nocivo en caso de ingesti\u00f3n.",
+    "H304": "Puede ser mortal en caso de ingesti\u00f3n y penetraci\u00f3n en las v\u00edas respiratorias.",
+    "H305": "Puede ser nocivo en caso de ingesti\u00f3n y penetraci\u00f3n en las v\u00edas respiratorias.",
+    "H312": "Nocivo en contacto con la piel.",
+    "H314": "Provoca quemaduras graves en la piel y da\u00f1os oculares graves.",
+    "H315": "Provoca irritaci\u00f3n cut\u00e1nea.",
+    "H316": "Provoca una leve irritaci\u00f3n cut\u00e1nea.",
+    "H317": "Puede provocar una reacci\u00f3n al\u00e9rgica en la piel.",
+    "H318": "Provoca da\u00f1os oculares graves.",
+    "H319": "Provoca irritaci\u00f3n ocular grave.",
+    "H320": "Provoca irritaci\u00f3n ocular.",
+    "H332": "Nocivo en caso de inhalaci\u00f3n.",
+    "H334": "Puede provocar s\u00edntomas de alergia o asma o dificultades respiratorias en caso de inhalaci\u00f3n.",
+    "H335": "Puede irritar las v\u00edas respiratorias.",
+    "H336": "Puede provocar somnolencia o v\u00e9rtigo.",
+    "H351": "Se sospecha que provoca c\u00e1ncer.",
+    "H360": "Puede perjudicar la fertilidad o al feto.",
+    "H361": "Se sospecha que perjudica la fertilidad o al feto.",
+    "H362": "Puede ser nocivo para los ni\u00f1os alimentados con leche materna.",
+    "H371": "Puede provocar da\u00f1os en los \u00f3rganos.",
+    "H373": "Puede provocar da\u00f1os en los \u00f3rganos tras exposiciones prolongadas o repetidas.",
+    "H400": "Muy t\u00f3xico para los organismos acu\u00e1ticos.",
+    "H410": "Muy t\u00f3xico para los organismos acu\u00e1ticos, con efectos nocivos duraderos.",
+    "H411": "T\u00f3xico para los organismos acu\u00e1ticos, con efectos nocivos duraderos.",
+    "H412": "Nocivo para los organismos acu\u00e1ticos, con efectos nocivos duraderos.",
+    "H413": "Puede ser nocivo para los organismos acu\u00e1ticos, con efectos nocivos duraderos.",
+    "H301+H311+H331": "T\u00f3xico en caso de ingesti\u00f3n, contacto con la piel o inhalaci\u00f3n.",
+    "H302+H312": "Nocivo en caso de ingesti\u00f3n o contacto con la piel.",
+    "H302+H332": "Nocivo en caso de ingesti\u00f3n o inhalaci\u00f3n.",
+    "H312+H332": "Nocivo en contacto con la piel o inhalaci\u00f3n.",
+    "H302+H312+H332": "Nocivo en caso de ingesti\u00f3n, contacto con la piel o inhalaci\u00f3n.",
+    "H315+H319": "Provoca irritaci\u00f3n cut\u00e1nea e irritaci\u00f3n ocular grave.",
+}
+
+PRECAUTION_PHRASES_ES = {
+    "P201": "Solicitar instrucciones especiales antes del uso.",
+    "P202": "No manipular la sustancia antes de haber le\u00eddo y comprendido todas las instrucciones de seguridad.",
+    "P210": "Mantener alejado de fuentes de calor, superficies calientes, chispas, llamas abiertas y otras fuentes de ignici\u00f3n. No fumar.",
+    "P211": "No pulverizar sobre una llama abierta u otra fuente de ignici\u00f3n.",
+    "P233": "Mantener el recipiente cerrado herm\u00e9ticamente.",
+    "P240": "Conexi\u00f3n a tierra/enlace equipotencial del recipiente y del equipo de recepci\u00f3n.",
+    "P241": "Utilizar un equipo el\u00e9ctrico/de ventilaci\u00f3n/de iluminaci\u00f3n antideflagrante.",
+    "P242": "Utilizar \u00fanicamente herramientas que no produzcan chispas.",
+    "P243": "Tomar medidas de precauci\u00f3n contra descargas electrost\u00e1ticas.",
+    "P251": "No perforar ni quemar, incluso despu\u00e9s de su uso.",
+    "P260": "No respirar el polvo/el humo/el gas/la niebla/los vapores/el aerosol.",
+    "P261": "Evitar respirar el polvo/el humo/el gas/la niebla/los vapores/el aerosol.",
+    "P264": "Lavarse concienzudamente despu\u00e9s de la manipulaci\u00f3n.",
+    "P271": "Usar \u00fanicamente en exteriores o en un lugar bien ventilado.",
+    "P273": "Evitar su liberaci\u00f3n al medio ambiente.",
+    "P280": "Llevar guantes/prendas/gafas/m\u00e1scara de protecci\u00f3n.",
+    "P301+P310": "EN CASO DE INGESTI\u00d3N: Llamar inmediatamente a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico.",
+    "P301+P312": "EN CASO DE INGESTI\u00d3N: Llamar a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico si la persona se encuentra mal.",
+    "P302+P352": "EN CASO DE CONTACTO CON LA PIEL: Lavar con abundante agua y jab\u00f3n.",
+    "P304+P340": "EN CASO DE INHALACI\u00d3N: Transportar a la persona al aire libre y mantenerla en una posici\u00f3n que le facilite la respiraci\u00f3n.",
+    "P304+P312": "EN CASO DE INHALACI\u00d3N: Llamar a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico si la persona se encuentra mal.",
+    "P305+P351+P338": "EN CASO DE CONTACTO CON LOS OJOS: Aclarar cuidadosamente con agua durante varios minutos. Quitar las lentes de contacto, si lleva y resulta f\u00e1cil. Seguir aclarando.",
+    "P310": "Llamar inmediatamente a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico.",
+    "P311": "Llamar a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico.",
+    "P312": "Llamar a un CENTRO DE TOXICOLOG\u00cdA/m\u00e9dico si la persona se encuentra mal.",
+    "P313": "Consultar a un m\u00e9dico.",
+    "P330": "Enjuagarse la boca.",
+    "P331": "NO provocar el v\u00f3mito.",
+    "P332+P313": "En caso de irritaci\u00f3n cut\u00e1nea: Consultar a un m\u00e9dico.",
+    "P333+P313": "En caso de irritaci\u00f3n o erupci\u00f3n cut\u00e1nea: Consultar a un m\u00e9dico.",
+    "P337+P313": "Si persiste la irritaci\u00f3n ocular: Consultar a un m\u00e9dico.",
+    "P340": "Transportar a la persona al aire libre y mantenerla en una posici\u00f3n que le facilite la respiraci\u00f3n.",
+    "P362+P364": "Quitar la ropa contaminada y lavarla antes de volver a usarla.",
+    "P370+P378": "En caso de incendio: Utilizar los medios de extinci\u00f3n adecuados.",
+    "P403+P233": "Almacenar en un lugar bien ventilado. Mantener el recipiente cerrado herm\u00e9ticamente.",
+    "P405": "Guardar bajo llave.",
+    "P501": "Eliminar el contenido/el recipiente conforme a la normativa local.",
+}
+
+CODE_PHRASES_BY_LANG = {
+    "fr": {**HAZARD_PHRASES_FR, **PRECAUTION_PHRASES_FR},
+    "es": {**HAZARD_PHRASES_ES, **PRECAUTION_PHRASES_ES},
+}
+
+# Matches a leading H-code or P-code (with optional "+combo") at the start
+# of a hazard/precautionary statement line, e.g. "H282 Extremely..." or
+# "P301+P310 IF SWALLOWED...".
+_CODE_LINE_RE = re.compile(r"^\s*((?:H|P)\d{3}(?:\s*\+\s*(?:H|P)\d{3})*)\b\s*(.*)$")
+
+
+def translate_code_line(text: str, lang: str) -> str:
+    """If a line starts with a recognized H-code/P-code, replace the English
+    phrase with the verified GHS translation for that exact code, keeping
+    the code prefix. An unrecognized code, or any text with no code prefix
+    at all, is returned with the language's "unverified" marker appended -
+    never silently translated on a guess.
+    """
+    if lang == "en":
+        return text
+    m = _CODE_LINE_RE.match(text)
+    if not m:
+        return text
+    code = m.group(1).replace(" ", "")
+    phrase = CODE_PHRASES_BY_LANG.get(lang, {}).get(code)
+    if phrase:
+        return f"{code} {phrase}"
+    return text + LANG[lang]["unverified"]
+
+
+def _translate_block(blk, lang):
+    """Apply translate_code_line() to a source-derived block for a non-English
+    output. Only lines that actually match a recognized H-code/P-code get
+    swapped for verified phrasing; the leading code's bold styling is kept
+    where the source already bolded it. Everything else in the block (and
+    everything when lang == 'en') passes through completely unchanged.
+    """
+    if lang == "en":
+        return blk
+    if isinstance(blk, Table):
+        changed = False
+        new_rows = []
+        for row in blk.rows:
+            new_row = []
+            for cell in row:
+                new_paras = []
+                for p in cell.paras:
+                    new_p = _translate_block(p, lang)
+                    if new_p is not p:
+                        changed = True
+                    new_paras.append(new_p)
+                new_row.append(Cell(new_paras, span=cell.span, width=cell.width))
+            new_rows.append(new_row)
+        return Table(grid=blk.grid, rows=new_rows) if changed else blk
+
+    orig = blk.text
+    new_text = translate_code_line(orig, lang)
+    if new_text == orig:
+        return blk
+    m = _CODE_LINE_RE.match(orig)
+    if m and blk.runs and blk.runs[0].bold and blk.runs[0].text.strip() == m.group(1).strip():
+        code_run_text = blk.runs[0].text
+        rest = new_text[len(m.group(1).replace(" ", "")):]
+        new_runs = [Run(code_run_text, bold=True), Run(rest)]
+    else:
+        new_runs = [Run(new_text)]
+    return Para(new_runs, list_kind=blk.list_kind, level=blk.level, spacing_after=blk.spacing_after)
+
+
 # Any dash, any spacing, optional colon: "SECTION 1 - Identification", "Section 1:", "SECTION 1"
 SECTION_RE = re.compile(r"^\s*SECTION\s+(\d{1,2})\s*[-\u2010-\u2015:.]?\s*(.*)$", re.I)
 
@@ -677,8 +1047,11 @@ def _cohesion(blocks):
     return keep
 
 
-def _emit_heading(num, title):
-    txt = _xml_escape(f"SECTION {num} \u2013 {title}")
+_SECTION_WORD = {"en": "SECTION", "fr": "SECTION", "es": "SECCI\u00d3N"}
+
+
+def _emit_heading(num, title, lang="en"):
+    txt = _xml_escape(f"{_SECTION_WORD.get(lang, 'SECTION')} {num} \u2013 {title}")
     rpr = (f'<w:rPr>{TNR}<w:b/><w:bCs/><w:kern w:val="0"/><w:sz w:val="36"/>'
            f'<w:szCs w:val="36"/><w:u w:val="thick"/></w:rPr>')
     return (f'<w:p><w:pPr><w:keepNext/><w:spacing w:before="240" w:after="120" '
@@ -723,33 +1096,52 @@ S1_LABEL_PATTERNS = {
 }
 
 
-def canonical_section1(intake: dict) -> list:
+_PHONE_HOURS = {
+    "en": "402-731-9300 (Available 8:00 am \u2013 4:30 pm CST)",
+    "fr": "402-731-9300 (Disponible de 8 h \u00e0 16 h 30, heure du Centre)",
+    "es": "402-731-9300 (Disponible de 8:00 a. m. a 4:30 p. m., hora del Centro)",
+}
+_EMERGENCY_LINE = {
+    "en": "Chemtrec 1(800)-424-9300",
+    "fr": "Chemtrec 1 (800) 424-9300",
+    "es": "Chemtrec 1 (800) 424-9300",
+}
+_ADDRESS_LINES = {
+    "en": ["Forza, Inc.", "3211 Nebraska Ave, Suite #300", "Council Bluffs, IA 51501, USA"],
+    "fr": ["Forza, Inc.", "3211 Nebraska Ave, bureau 300", "Council Bluffs, IA 51501, \u00c9tats-Unis"],
+    "es": ["Forza, Inc.", "3211 Nebraska Ave, Suite #300", "Council Bluffs, IA 51501, EE. UU."],
+}
+
+
+def canonical_section1(intake: dict, lang: str = "en") -> list:
     """Section 1 is always rendered in Forza's fixed house format, regardless
     of how the source document structured it. Only the five identity/use
     fields vary by product; the supplier block is constant company boilerplate
     and is never taken from the source, since engineering drafts often carry
     placeholder brackets there (e.g. '[Company name and address - insert]').
     """
+    L = LANG.get(lang, LANG["en"])
     B = lambda t: Run(t, bold=True)
+    addr = _ADDRESS_LINES.get(lang, _ADDRESS_LINES["en"])
     return [
-        Para([B("Product Name: "), Run(intake.get("product_name", ""))], spacing_after=120),
-        Para([B("Other Means of Identification: "), Run(intake.get("other_means", ""))],
+        Para([B(f"{L['product_name']} "), Run(intake.get("product_name", ""))], spacing_after=120),
+        Para([B(f"{L['other_means']} "), Run(intake.get("other_means", ""))],
              spacing_after=120),
-        Para([B("Product Code Number: "), Run(intake.get("product_code", ""))],
+        Para([B(f"{L['product_code']} "), Run(intake.get("product_code", ""))],
              spacing_after=120),
-        Para([B("Recommended Use: "), Run(intake.get("recommended_use", ""))],
+        Para([B(f"{L['recommended_use']} "), Run(intake.get("recommended_use", ""))],
              spacing_after=120),
-        Para([B("Recommended Restrictions: "), Run(intake.get("recommended_restrictions", ""))],
+        Para([B(f"{L['recommended_restrictions']} "), Run(intake.get("recommended_restrictions", ""))],
              spacing_after=200),
-        Para([Run("Suppliers Details")], spacing_after=120),
-        Para([B("Company: ")], spacing_after=20),
-        Para([Run("Forza, Inc.")], spacing_after=0),
-        Para([Run("3211 Nebraska Ave, Suite #300")], spacing_after=0),
-        Para([Run("Council Bluffs, IA 51501, USA")], spacing_after=140),
-        Para([B("Company Phone Number: ")], spacing_after=20),
-        Para([Run("402-731-9300 (Available 8:00 am \u2013 4:30 pm CST)")], spacing_after=140),
-        Para([B("Emergency Phone Number: ")], spacing_after=20),
-        Para([Run("Chemtrec 1(800)-424-9300")], spacing_after=120),
+        Para([Run(L["suppliers_details"])], spacing_after=120),
+        Para([B(L["company"] + " ")], spacing_after=20),
+        Para([Run(addr[0])], spacing_after=0),
+        Para([Run(addr[1])], spacing_after=0),
+        Para([Run(addr[2])], spacing_after=140),
+        Para([B(L["company_phone"] + " ")], spacing_after=20),
+        Para([Run(_PHONE_HOURS.get(lang, _PHONE_HOURS["en"]))], spacing_after=140),
+        Para([B(L["emergency_phone"] + " ")], spacing_after=20),
+        Para([Run(_EMERGENCY_LINE.get(lang, _EMERGENCY_LINE["en"]))], spacing_after=120),
     ]
 
 
@@ -942,8 +1334,19 @@ TOP_ROWS = ["trade_name", "sds_field", "date_of_issue", "replaces", "effective_d
 TOP_LABELS = ["Trade Name", "SDS #", "Date of Issue", "Replaces", "Effective Date"]
 
 
-def render(sds: SDS, intake: dict, shell_path: str, out_path: str) -> str:
-    """Inject the model into a vertical shell and write the finished .docx."""
+def render(sds: SDS, intake: dict, shell_path: str, out_path: str, lang: str = "en") -> str:
+    """Inject the model into a vertical shell and write the finished .docx.
+    lang: 'en' | 'fr' | 'es'. Fixed template text (title, table labels,
+    section titles, Section 1 field names, footer) is translated for the
+    requested language. Source-derived hazard/precautionary statement text
+    in Sections 2-15 is translated only where it starts with a recognized
+    GHS H-code/P-code (see translate_code_line) - everything else in those
+    sections passes through in English, since this tool does not author or
+    certify hazard content (see the Overview SOP: that stays R&D/Quality's
+    responsibility).
+    """
+    L = LANG.get(lang, LANG["en"])
+    titles = SECTION_TITLES_BY_LANG.get(lang, SECTION_TITLES)
     ver = re.sub(r"\D", "", str(intake.get("version", "1"))) or "1"
     values = {
         "trade_name": intake.get("trade_name", ""),
@@ -951,6 +1354,15 @@ def render(sds: SDS, intake: dict, shell_path: str, out_path: str) -> str:
         "replaces": normalize_date_string(intake.get("replaces", "")),
         "date_of_issue": normalize_date_string(intake.get("date_of_issue", "")),
         "effective_date": normalize_date_string(intake.get("effective_date", "")),
+        "lbl_trade_name": L["trade_name"],
+        "lbl_sds_num": L["sds_num"],
+        "lbl_date_issue": L["date_issue"],
+        "lbl_replaces": L["replaces"],
+        "lbl_effective": L["effective"],
+        "lbl_doc_title": L["doc_title"],
+        "lbl_page": L["page"],
+        "lbl_of": L["of"],
+        "lbl_dcn": L["dcn"],
     }
     dcn = build_dcn(intake.get("sds_number", ""), ver, intake.get("trade_name", ""))
 
@@ -976,13 +1388,19 @@ def render(sds: SDS, intake: dict, shell_path: str, out_path: str) -> str:
     doc = parts["word/document.xml"].decode("utf-8")
     chunks = []
     for sec in sorted(sds.sections, key=lambda s: s.number):
-        chunks.append(_emit_heading(sec.number, sec.title or SECTION_TITLES.get(sec.number, "")))
+        # For English, respect the source's own section title wording when it
+        # has one (falls back to the canonical name only if it didn't). For
+        # French/Spanish output, always use the canonical translated title -
+        # the source's title text is English and should never leak through.
+        heading_title = titles.get(sec.number, "") if lang != "en" else (sec.title or titles.get(sec.number, ""))
+        chunks.append(_emit_heading(sec.number, heading_title, lang=lang))
         if sec.number == 1:
             # Always the fixed Forza house format, regardless of source shape.
-            for p in canonical_section1(intake):
+            for p in canonical_section1(intake, lang):
                 chunks.append(_emit_para(p, rid_for))
             continue
         blocks = [b for b in sec.blocks if isinstance(b, Table) or b.runs]
+        blocks = [_translate_block(b, lang) for b in blocks]
         keep = _cohesion(blocks)
         for blk, kn in zip(blocks, keep):
             if isinstance(blk, Table):
@@ -1001,7 +1419,11 @@ def render(sds: SDS, intake: dict, shell_path: str, out_path: str) -> str:
 
     # ---- footer DCN
     ftr = parts["word/footer1.xml"].decode("utf-8")
-    parts["word/footer1.xml"] = ftr.replace("{{DCN}}", _xml_escape(dcn)).encode("utf-8")
+    ftr = ftr.replace("{{DCN}}", _xml_escape(dcn))
+    ftr = ftr.replace("{{LBL_PAGE}}", _xml_escape(L["page"]))
+    ftr = ftr.replace("{{LBL_OF}}", _xml_escape(L["of"]))
+    ftr = ftr.replace("{{LBL_DCN}}", _xml_escape(L["dcn"]))
+    parts["word/footer1.xml"] = ftr.encode("utf-8")
 
     # ---- relationships + content types for staged images
     rl = parts["word/_rels/document.xml.rels"].decode("utf-8")
