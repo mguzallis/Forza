@@ -14,6 +14,7 @@ from datetime import date
 
 import streamlit as st
 
+import sds_draft
 from core import (VERTICALS, extract, apply_intake, render, preflight,
                   build_dcn, build_sds_field, DeepLError)
 
@@ -290,6 +291,9 @@ if mode == "Single file":
                                file_name=f"{base}.zip", mime="application/zip")
             st.success("Done - English, French, and Spanish versions generated. "
                       "Open each in Word and press Ctrl+A then F9 to refresh page totals.")
+            sds_draft.save_and_report(st, sds, intake, vertical=vertical,
+                                      file_name=os.path.basename(files["EN"]),
+                                      sds_number=sds_numbers.get("EN"))
             if DEEPL_API_KEY:
                 st.caption("Hard page breaks are intentionally not carried over. "
                           "French/Spanish content is machine-translated - review before "
@@ -353,6 +357,7 @@ elif mode == "Rebrand across verticals":
         try:
             names = []
             all_files = {}
+            draft_jobs = []
             for v, intake in jobs.items():
                 sds_copy = copy.deepcopy(base_sds)
                 apply_intake(sds_copy, intake)
@@ -363,6 +368,7 @@ elif mode == "Rebrand across verticals":
                                                base_name, sds_number_overrides=sds_num_jobs[v])
                 all_files.update(files)
                 names.extend(os.path.basename(p) for p in files.values())
+                draft_jobs.append((sds_copy, intake, v, files["EN"], sds_num_jobs[v].get("EN")))
         except DeepLError as e:
             st.error(f"Translation failed: {e}")
         else:
@@ -374,6 +380,9 @@ elif mode == "Rebrand across verticals":
                                file_name="Forza_SDS_multivertical.zip", mime="application/zip")
             st.success(f"Generated {len(names)} document(s) - English, French, and "
                       "Spanish for each vertical: " + ", ".join(names))
+            for d_sds, d_intake, d_v, d_en, d_no in draft_jobs:
+                sds_draft.save_and_report(st, d_sds, d_intake, vertical=d_v,
+                                          file_name=os.path.basename(d_en), sds_number=d_no)
 
 # ============================================================ BULK REFORMAT ===
 elif mode == "Bulk reformat":
@@ -419,6 +428,7 @@ elif mode == "Bulk reformat":
         try:
             names = []
             all_files = {}
+            draft_jobs = []
             for fname_in, intake in jobs.items():
                 s = parsed[fname_in]
                 apply_intake(s, intake)
@@ -428,6 +438,7 @@ elif mode == "Bulk reformat":
                                                sds_number_overrides=sds_num_jobs[fname_in])
                 all_files.update(files)
                 names.extend(os.path.basename(p) for p in files.values())
+                draft_jobs.append((s, intake, files["EN"], sds_num_jobs[fname_in].get("EN")))
         except DeepLError as e:
             st.error(f"Translation failed: {e}")
         else:
@@ -439,3 +450,6 @@ elif mode == "Bulk reformat":
                                file_name=f"Forza_{vertical}_batch.zip", mime="application/zip")
             st.success(f"Generated {len(names)} document(s) - English, French, and "
                       "Spanish for each file: " + ", ".join(names))
+            for d_sds, d_intake, d_en, d_no in draft_jobs:
+                sds_draft.save_and_report(st, d_sds, d_intake, vertical=vertical,
+                                          file_name=os.path.basename(d_en), sds_number=d_no)
