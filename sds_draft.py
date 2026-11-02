@@ -222,7 +222,10 @@ def save_and_report(st, sds, intake: dict, *, vertical: str, file_name: str,
         row_intake = dict(intake)
         if sds_number:
             row_intake["sds_number"] = sds_number
-        row = build_sds_row(sds, row_intake, vertical=vertical, file_name=file_name)
+        # The key is the final PDF name (that is what gets saved as final),
+        # so the draft written now is later replaced, not duplicated.
+        key_name = re.sub(r"\.docx$", ".pdf", file_name, flags=re.I)
+        row = build_sds_row(sds, row_intake, vertical=vertical, file_name=key_name)
         ok, msg = save_sds_draft(row)
     except Exception as e:  # noqa: BLE001 - must never break generation
         st.warning(f"Product data draft not saved: {e}")
